@@ -1,9 +1,19 @@
 'use client';
 import React, { useState } from 'react';
 
+interface ScanResult {
+  documents: Array<{
+    completely_generated_prob: number;
+    sentences: Array<{
+      text: string;
+      generated_prob: number;
+    }>;
+  }>;
+}
+
 const Page = () => {
   const [text, setText] = useState('');
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ScanResult | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -34,6 +44,7 @@ const Page = () => {
 
   const charactersRemaining = Math.max(250 - text.length, 0);
   const isLongEnough = text.length >= 250;
+  const isAIGenerated = (result?.documents?.[0]?.completely_generated_prob ?? 0) > 0.02;
 
   return (
     <div className="min-h-screen bg-white p-8 flex items-center justify-center">
@@ -59,11 +70,19 @@ const Page = () => {
         ) : (
           <div className="space-y-8">
             <div className="text-gray-800 text-lg whitespace-pre-wrap uppercase text-left" style={{ fontFamily: 'Courier, monospace' }}>
-              {text}
+              <span 
+                style={{
+                  backgroundColor: result.documents[0].completely_generated_prob > 0.5 ? '#ffeb3b' : 'transparent',
+                  padding: '2px 0',
+                  lineHeight: '2'
+                }}
+              >
+                {text}
+              </span>
             </div>
             {result?.documents?.[0] && (
               <div className="text-lg">
-                VERDICT: {result.documents[0].completely_generated_prob > 0.02 ? `${(result.documents[0].completely_generated_prob * 100).toFixed(1)}% AI GENERATED` : 'HUMAN WRITTEN'}
+                VERDICT: {isAIGenerated ? `${(result.documents[0].completely_generated_prob * 100).toFixed(1)}% AI GENERATED` : 'HUMAN WRITTEN'}
                 <br /><br />
                 <button 
                   onClick={() => {setText(''); setResult(null);}}
