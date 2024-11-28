@@ -1,23 +1,33 @@
 import React from 'react';
 
-export const Alert = ({ variant = 'default', className, children }) => {
+interface AlertProps {
+  variant?: 'default' | 'destructive';
+  className?: string;
+  children: React.ReactNode;
+}
+
+export const Alert = ({ 
+  variant = 'default', 
+  className = '', 
+  children 
+}: AlertProps) => {
   return (
-    <div
-      className={`rounded-md p-4 ${
-        variant === 'default'
-          ? 'bg-blue-50 text-blue-900'
-          : 'bg-red-50 text-red-900'
-      } ${className}`}
-    >
+    <div className={`rounded-md p-4 ${className}`}>
       {children}
     </div>
   );
 };
 
-export const AlertTitle = ({ children }) => {
-  return <div className="font-medium">{children}</div>;
-};
-
-export const AlertDescription = ({ children }) => {
-  return <div className="mt-2 text-sm">{children}</div>;
+export const AlertDescription = ({
+  className = '',
+  children
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className={`text-sm ${className}`}>
+      {children}
+    </div>
+  );
 };
