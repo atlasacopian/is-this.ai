@@ -23,8 +23,6 @@ export default function Page() {
    if (!text || text.length < 250) return;
    setLoading(true);
    try {
-     console.log('Sending text:', text);
-     
      const response = await fetch('https://api.gptzero.me/v2/predict/text', {
        method: 'POST',
        headers: {
@@ -35,10 +33,7 @@ export default function Page() {
      });
      
      const data = await response.json();
-     console.log('API Response:', data);
-     
      if (!response.ok) {
-       console.error('API Error:', data);
        return;
      }
      
@@ -118,13 +113,18 @@ export default function Page() {
              textTransform: 'uppercase',
              wordBreak: 'break-word'
            }}>
-             <span style={{
-               backgroundColor: result.documents[0].completely_generated_prob > 0.5 ? '#ffeb3b' : 'transparent',
-               padding: '2px 0',
-               lineHeight: '2'
-             }}>
-               {text}
-             </span>
+             {result.documents[0].sentences.map((sentence, i) => (
+               <span 
+                 key={i}
+                 style={{
+                   backgroundColor: sentence.generated_prob > 0.5 ? '#ffeb3b' : 'transparent',
+                   padding: '2px 0',
+                   lineHeight: '2'
+                 }}
+               >
+                 {sentence.text.toUpperCase()}
+               </span>
+             ))}
            </div>
            <div style={{
              fontSize: '18px',
