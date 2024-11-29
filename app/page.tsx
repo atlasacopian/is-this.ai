@@ -113,16 +113,16 @@ export default function Page() {
              textTransform: 'uppercase',
              wordBreak: 'break-word'
            }}>
-             {result.documents[0].sentences.map((sentence, i) => (
+             {text.split(/(?<=[.!?])\s+/).map((sentence, i) => (
                <span 
                  key={i}
                  style={{
-                   backgroundColor: sentence.generated_prob > 0.5 ? '#ffeb3b' : 'transparent',
+                   backgroundColor: result.documents[0].sentences[i]?.generated_prob > 0.5 ? '#ffeb3b' : 'transparent',
                    padding: '2px 0',
                    lineHeight: '2'
                  }}
                >
-                 {(sentence.text || '').toUpperCase()}
+                 {sentence + ' '}
                </span>
              ))}
            </div>
