@@ -33,14 +33,7 @@ export default function Page() {
      });
      
      const data = await response.json();
-     console.log('API Response:', {
-       text: text,
-       result: data,
-       sentences: data.documents?.[0]?.sentences?.map(s => ({
-         text: s.text,
-         prob: s.generated_prob
-       }))
-     });
+     console.log('API Response:', data);
      
      if (response.ok) setResult(data);
    } finally {
@@ -55,11 +48,6 @@ export default function Page() {
        handleSubmit();
      }
    }
- };
-
- // Helper function to get highlight color based on probability
- const getHighlightColor = (prob: number) => {
-   return prob > 0.2 ? '#ffeb3b' : 'transparent';
  };
 
  return (
@@ -123,12 +111,12 @@ export default function Page() {
                <span 
                  key={i}
                  style={{
-                   backgroundColor: getHighlightColor(sentence.generated_prob),
+                   backgroundColor: sentence.generated_prob > 0.2 ? '#ffeb3b' : 'transparent',
                    padding: '2px 0',
                    lineHeight: '2'
                  }}
                >
-                 {sentence.text + ' '}
+                 {sentence.text}
                </span>
              ))}
            </div>
