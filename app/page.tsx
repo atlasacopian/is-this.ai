@@ -11,7 +11,7 @@ interface ScanResult {
   }>;
 }
 
-const Page = () => {
+function Page() {  // Changed from const Page = () => {
   const [text, setText] = useState('');
   const [result, setResult] = useState<ScanResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -98,6 +98,6 @@ const Page = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Page;
+export default Page;  // Make sure this is at the bottom
