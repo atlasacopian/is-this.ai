@@ -122,7 +122,7 @@ export default function Page() {
                    lineHeight: '2'
                  }}
                >
-                 {sentence.text.toUpperCase()}
+                 {(sentence.text || '').toUpperCase()}
                </span>
              ))}
            </div>
