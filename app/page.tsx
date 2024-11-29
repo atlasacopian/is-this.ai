@@ -23,6 +23,7 @@ export default function Page() {
       });
       
       const data = await response.json();
+      console.log("API Response:", JSON.stringify(data, null, 2));
       setResult(data);
     } finally {
       setLoading(false);
@@ -39,10 +40,16 @@ export default function Page() {
   };
 
   const renderAnalyzedText = () => {
-    if (!result?.documents?.[0]?.sentences) return null;
+    console.log("Rendering text with data:", JSON.stringify(result?.documents?.[0]?.sentences, null, 2));
+    
+    if (!result?.documents?.[0]?.sentences) {
+      console.log("No sentences data found");
+      return null;
+    }
     
     return result.documents[0].sentences.map((item, index) => {
       const isAIGenerated = item.generated_prob > 0.2;
+      console.log("Sentence:", item.sentence, "Prob:", item.generated_prob, "Highlighted:", isAIGenerated);
       
       return (
         <span 
