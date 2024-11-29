@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone'
+  output: 'standalone',
+  distDir: '.next',
+  typescript: {
+    ignoreBuildErrors: false
+  }
 }
 
 module.exports = nextConfig
