@@ -33,7 +33,9 @@ export default function Page() {
      });
      
      const data = await response.json();
-     console.log('API Response:', data);
+     // Debug logging
+     console.log('Raw API Response:', JSON.stringify(data, null, 2));
+     console.log('Sentences:', data?.documents?.[0]?.sentences);
      
      if (response.ok) setResult(data);
    } finally {
@@ -107,16 +109,16 @@ export default function Page() {
              color: '#333',
              textTransform: 'uppercase'
            }}>
-             {result.documents[0].sentences.map((sentence, i) => (
+             {result.documents[0]?.sentences?.map((sentence, i) => (
                <span 
                  key={i}
                  style={{
-                   backgroundColor: sentence.generated_prob > 0.2 ? '#ffeb3b' : 'transparent',
+                   backgroundColor: sentence?.generated_prob > 0.2 ? '#ffeb3b' : 'transparent',
                    padding: '2px 0',
                    lineHeight: '2'
                  }}
                >
-                 {sentence.text}
+                 {sentence?.text || ''} 
                </span>
              ))}
            </div>
