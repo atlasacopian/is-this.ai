@@ -5,7 +5,7 @@ interface ScanResult {
  documents: Array<{
    completely_generated_prob: number;
    sentences: Array<{
-     text: string;
+     sentence: string;  // Changed from 'text' to 'sentence'
      generated_prob: number;
    }>;
  }>;
@@ -33,7 +33,6 @@ export default function Page() {
      });
      
      const data = await response.json();
-     // Debug logging
      console.log('Raw API Response:', JSON.stringify(data, null, 2));
      console.log('Sentences:', data?.documents?.[0]?.sentences);
      
@@ -118,7 +117,7 @@ export default function Page() {
                    lineHeight: '2'
                  }}
                >
-                 {sentence?.text || ''} 
+                 {sentence?.sentence || ''} 
                </span>
              ))}
            </div>
